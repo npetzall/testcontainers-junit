@@ -1,0 +1,17 @@
+sudo: false
+language: java
+jdk: oraclejdk8
+install: true
+
+#addons:
+#  sonarqube:
+#    organization: "npetzall-github"
+#    token:
+#      secure: "your_token_encrypted_with_travis_encrypt_tool"
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.sonar/cache
+
+script: ./mvnw clean -e install #sonar:sonar
