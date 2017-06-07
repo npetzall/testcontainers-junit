@@ -29,7 +29,7 @@ public class GenericContainerRule<SELF extends GenericContainerRule<SELF, T>, T 
           try {
               DockerClientFactory.instance().client();
           } catch (Throwable t) {
-              throw new AssumptionViolatedException("Unable to create container[might be docker related]");
+              throw new AssumptionViolatedException("Unable to create container[might be docker related]", t);
           }
             return originalContainerSupplier.get();
         };
@@ -53,7 +53,7 @@ public class GenericContainerRule<SELF extends GenericContainerRule<SELF, T>, T 
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                List<Throwable> errors = new ArrayList<Throwable>();
+                List<Throwable> errors = new ArrayList<>();
                 try {
                     beforeStart(container);
                     container.start();
@@ -61,9 +61,9 @@ public class GenericContainerRule<SELF extends GenericContainerRule<SELF, T>, T 
                     beforeTest(container);
                     base.evaluate();
                     afterTest(container);
-                } catch (Throwable t) {
-                    errors.add(t);
-                    error(t);
+                } catch (Exception e) {
+                    errors.add(e);
+                    error(e);
                 } finally {
                     beforeStop(container);
                     container.stop();
@@ -79,22 +79,28 @@ public class GenericContainerRule<SELF extends GenericContainerRule<SELF, T>, T 
         assumptions.forEach(a -> a.accept(container));
     }
 
-    protected void afterStart(T container) throws SQLException {
+    protected void afterStart(T container) {
+       //Hook
     }
 
     protected void beforeTest(T container) {
+        //Hook
     }
 
     protected void afterTest(T container) {
+        //Hook
     }
 
     protected void error(Throwable t) {
+        //Hook
     }
 
     protected void beforeStop(T container) {
+        //Hook
     }
 
     protected void afterStop(T container) {
+        //Hook
     }
 
 }

@@ -15,8 +15,8 @@ public class JdbcAssumptions {
         return c -> {
             try {
                 c.getJdbcDriverInstance();
-            } catch (Throwable t) {
-                assumeNoException(t);
+            } catch (Exception e) {
+                assumeNoException(e);
             }
         };
     }

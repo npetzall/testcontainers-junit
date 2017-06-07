@@ -44,7 +44,7 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
     }
 
     @Override
-    protected void afterStart(T container) throws SQLException {
+    protected void afterStart(T container) {
         super.afterStart(container);
         if (initScriptPath != null) {
             try {
@@ -52,19 +52,27 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
                 String sql = Resources.toString(resource, Charsets.UTF_8);
                 ScriptUtils.executeSqlScript(container.createConnection(queryString), initScriptPath, sql);
             } catch (IOException | IllegalArgumentException e) {
-                log.warn("Could not load classpath init script: {}", initScriptPath);
-                throw new SQLException("Could not load classpath init script: " + initScriptPath, e);
+                log.error("Could not load classpath init script: {}", initScriptPath);
+                throw new RuntimeException("Could not load classpath init script: " + initScriptPath, e);
             } catch (ScriptException e) {
                 log.error("Error while executing init script: {}", initScriptPath, e);
-                throw new SQLException("Error while executing init script: " + initScriptPath, e);
+                throw new RuntimeException("Error while executing init script: " + initScriptPath, e);
+            } catch (SQLException e) {
+                log.error("Error while execution init script: {}", initScriptPath, e);
+                throw new RuntimeException("SQLException: ", e);
             }
         }
 
         for(Consumer initFunction : initFunctions) {
-            Connection connection = container.createConnection(queryString);
-            initFunction.accept(connection);
-            if (!connection.isClosed()) {
-                connection.close();
+            Connection connection = null;
+            try {
+                connection = container.createConnection(queryString);
+                initFunction.accept(connection);
+                if (!connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                log.warn("Failed to execute function: {}", initFunction.getClass().getSimpleName() , e);
             }
         }
     }
