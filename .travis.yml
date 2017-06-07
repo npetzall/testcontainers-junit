@@ -3,15 +3,15 @@ language: java
 jdk: oraclejdk8
 install: true
 
-#addons:
-#  sonarqube:
-#    organization: "npetzall-github"
-#    token:
-#      secure: "your_token_encrypted_with_travis_encrypt_tool"
+addons:
+  sonarqube:
+    organization: "npetzall-github"
+    token:
+      secure: "mo19jog7R9MTpDsuLgYHXu7I8scSJFpSJQ5rYLYMKoMRvBuEaJRvAlNdeZfkjfor+vbTxFYeeMyrHbQi2J09+AqxRAlmToG8DiKNORelPlXFLFKjTkSNDfmKhoATjUq0usLX7M37663f6+6b6jV7sbwpIbtBynVQMzDjSR07kkBmxA8WglVUK7ge4Bz82NaSdg7zYqfrgEgHM14oBanJbKtH/jorhO1+55At1bEsJSrzhXl3SIy40+ypXnsnbXHw8rx0vH3BhnJPnzRN7fBJkJOZjmwhou1edKowcgljC//TgTpGDSqlroOQWMkcyFi/WW8YDRRrce/HXj5D+3VewdS6Z4SzUzfCnwrFMWwqy9RVYyPFc2/FURz9q29dQDiQ+3DXCLigfRiiSuSaDt2O1RoEizDG52hGp+Yo6CT3vPzOaWK1XWa3tG77IaWzjt0tdCv9uEW2WIA71WD9f1XFaFX85gOgnuliuf7sA0OsfnOuB+vVjIN83el71Y3o9J7gjlGDcd0y/pGXU6z+lImVcouX/i48shouaaXrc5DV/zxrkm74yBt6Ras2wypNtKICTUgGaE9lcC+Dy3E6N1YsXFDL58AY7g3hmqN4UiKyzZNEFTxnGnH9Fdn4i9DL16ik1unsIALT4BL1zMngmY9iGrLq3k9HrTkAXt7UDcsdQ0U="
 
 cache:
   directories:
   - $HOME/.m2
   - $HOME/.sonar/cache
 
-script: ./mvnw clean -e install #sonar:sonar
+script: ./mvnw clean -e install sonar:sonar

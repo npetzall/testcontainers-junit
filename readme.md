@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/npetzall/testcontainers-junit.svg?branch=master)](https://travis-ci.org/npetzall/testcontainers-junit)
 # JUnit Additions for testcontainers.
 
 This is used instead of the Container as [`@Rule`](http://junit.org/junit4/javadoc/latest/org/junit/Rule.html) or [`@ClassRule`](http://junit.org/junit4/javadoc/latest/org/junit/ClassRule.html)
