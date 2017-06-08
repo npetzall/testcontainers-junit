@@ -55,10 +55,7 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
             } catch (IOException | IllegalArgumentException e) {
                 log.error("Could not load classpath init script: {}", initScriptPath);
                 throw new InitScriptException("Could not load classpath init script: " + initScriptPath, e);
-            } catch (ScriptException e) {
-                log.error("Error while executing init script: {}", initScriptPath, e);
-                throw new InitScriptException("Error while executing init script: " + initScriptPath, e);
-            } catch (SQLException e) {
+            } catch (ScriptException | SQLException e) {
                 log.error("Error while execution init script: {}", initScriptPath, e);
                 throw new InitScriptException("SQLException: ", e);
             }
