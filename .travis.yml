@@ -2,19 +2,26 @@ sudo: required
 language: java
 jdk: oraclejdk8
 install: true
-
 services:
-  - docker
-
+- docker
 addons:
   sonarqube:
-    organization: "npetzall-github"
+    organization: npetzall-github
     token:
-      secure: "mo19jog7R9MTpDsuLgYHXu7I8scSJFpSJQ5rYLYMKoMRvBuEaJRvAlNdeZfkjfor+vbTxFYeeMyrHbQi2J09+AqxRAlmToG8DiKNORelPlXFLFKjTkSNDfmKhoATjUq0usLX7M37663f6+6b6jV7sbwpIbtBynVQMzDjSR07kkBmxA8WglVUK7ge4Bz82NaSdg7zYqfrgEgHM14oBanJbKtH/jorhO1+55At1bEsJSrzhXl3SIy40+ypXnsnbXHw8rx0vH3BhnJPnzRN7fBJkJOZjmwhou1edKowcgljC//TgTpGDSqlroOQWMkcyFi/WW8YDRRrce/HXj5D+3VewdS6Z4SzUzfCnwrFMWwqy9RVYyPFc2/FURz9q29dQDiQ+3DXCLigfRiiSuSaDt2O1RoEizDG52hGp+Yo6CT3vPzOaWK1XWa3tG77IaWzjt0tdCv9uEW2WIA71WD9f1XFaFX85gOgnuliuf7sA0OsfnOuB+vVjIN83el71Y3o9J7gjlGDcd0y/pGXU6z+lImVcouX/i48shouaaXrc5DV/zxrkm74yBt6Ras2wypNtKICTUgGaE9lcC+Dy3E6N1YsXFDL58AY7g3hmqN4UiKyzZNEFTxnGnH9Fdn4i9DL16ik1unsIALT4BL1zMngmY9iGrLq3k9HrTkAXt7UDcsdQ0U="
-
+      secure: mo19jog7R9MTpDsuLgYHXu7I8scSJFpSJQ5rYLYMKoMRvBuEaJRvAlNdeZfkjfor+vbTxFYeeMyrHbQi2J09+AqxRAlmToG8DiKNORelPlXFLFKjTkSNDfmKhoATjUq0usLX7M37663f6+6b6jV7sbwpIbtBynVQMzDjSR07kkBmxA8WglVUK7ge4Bz82NaSdg7zYqfrgEgHM14oBanJbKtH/jorhO1+55At1bEsJSrzhXl3SIy40+ypXnsnbXHw8rx0vH3BhnJPnzRN7fBJkJOZjmwhou1edKowcgljC//TgTpGDSqlroOQWMkcyFi/WW8YDRRrce/HXj5D+3VewdS6Z4SzUzfCnwrFMWwqy9RVYyPFc2/FURz9q29dQDiQ+3DXCLigfRiiSuSaDt2O1RoEizDG52hGp+Yo6CT3vPzOaWK1XWa3tG77IaWzjt0tdCv9uEW2WIA71WD9f1XFaFX85gOgnuliuf7sA0OsfnOuB+vVjIN83el71Y3o9J7gjlGDcd0y/pGXU6z+lImVcouX/i48shouaaXrc5DV/zxrkm74yBt6Ras2wypNtKICTUgGaE9lcC+Dy3E6N1YsXFDL58AY7g3hmqN4UiKyzZNEFTxnGnH9Fdn4i9DL16ik1unsIALT4BL1zMngmY9iGrLq3k9HrTkAXt7UDcsdQ0U=
 cache:
   directories:
-  - $HOME/.m2
-  - $HOME/.sonar/cache
-
-script: ./mvnw clean -e install sonar:sonar
+  - "$HOME/.m2"
+  - "$HOME/.sonar/cache"
+script: "./mvnw clean -e install sonar:sonar"
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: "./mvnw deploy --settings travis-mvn-settings.xml"
+  on:
+    repo: npetzall/testcontainers-junit
+    branch: master
+    condition: "${TRAVIS_TAG} =~ ^[0-9]+\\.[0-9]+\\.[0-9]+.*$"
+env:
+  global:
+    secure: qrxLT9D/3kh8vb2pU5UK8htFgSAcVJR5jwEOiBzA5/wNXJkfwcAHR8vouLnF+amiauV5I9c/Dcm/4S7xm6ROHwI9r8/PU0WIEMjn9hGcwmJXhPohK/LG3AI82KF3mMYSxegGAm6ioJWs2YoZoRdpNQUmqzRfhNeRkzQjUBGgGXF4x1CjRptZjmH/7oQpzQ4kM4V80NTRCjvlh2GgU5viMoJv81MqKbwglB5pt/j2V+6SWGfkqHM3VqDDEv6gNsg4H8EENp5dN+3iybYPM87jVEuhe4QJonhmdrM/GK/NYwnCZCQuxYXFyAK3q7xFh/H/EjDgQEaEF8CpIsAX2DsEyepR72GSeBG/K2l5R1WeFPHjlb0Xy/S9N3CKdB1SLbE88Xjlyxak6efEHe1S4UH7iMGi2iwbNxfZ/+4LMW7/KiNe4MlT24fk6CJ7DroM/xCQBqdK1lxrvSVTHVMpc3nAqDRYcRgRTpVoyYu1aykxmf7xwU4MElqEjAFpuUsi3Isi8k0wYubktIaTN3JRlXD1A4FJFdPR3bG24Ix8dw0PBexQ05OATcCxwCyEVVNu9gFQCe8IUpKvyNd8eU2E7zmN0ZaUPcHsdzIdkwL/xKceFxAppdquA6HRQ2gMKxRf0sF2d30NauYjM7BNLQAodsWhCobXlQ5+YeOKgdNpKaJZFng=

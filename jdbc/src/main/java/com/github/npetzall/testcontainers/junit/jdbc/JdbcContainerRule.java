@@ -1,12 +1,13 @@
 package com.github.npetzall.testcontainers.junit.jdbc;
 
 import com.github.npetzall.testcontainers.junit.generic.GenericContainerRule;
+import com.github.npetzall.testcontainers.junit.jdbc.exceptions.InitScriptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testcontainers.shaded.com.google.common.base.Charsets;
-import org.testcontainers.shaded.com.google.common.io.Resources;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.jdbc.ext.ScriptUtils;
+import org.testcontainers.shaded.com.google.common.base.Charsets;
+import org.testcontainers.shaded.com.google.common.io.Resources;
 
 import javax.script.ScriptException;
 import java.io.IOException;
@@ -53,13 +54,13 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
                 ScriptUtils.executeSqlScript(container.createConnection(queryString), initScriptPath, sql);
             } catch (IOException | IllegalArgumentException e) {
                 log.error("Could not load classpath init script: {}", initScriptPath);
-                throw new RuntimeException("Could not load classpath init script: " + initScriptPath, e);
+                throw new InitScriptException("Could not load classpath init script: " + initScriptPath, e);
             } catch (ScriptException e) {
                 log.error("Error while executing init script: {}", initScriptPath, e);
-                throw new RuntimeException("Error while executing init script: " + initScriptPath, e);
+                throw new InitScriptException("Error while executing init script: " + initScriptPath, e);
             } catch (SQLException e) {
                 log.error("Error while execution init script: {}", initScriptPath, e);
-                throw new RuntimeException("SQLException: ", e);
+                throw new InitScriptException("SQLException: ", e);
             }
         }
 
