@@ -1,6 +1,6 @@
 package org.testcontainers.dockerclient;
 
-import org.testcontainers.shaded.com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.DockerClient;
 
 public class FailingDockerClientProviderStrategy extends DockerClientProviderStrategy {
     @Override
