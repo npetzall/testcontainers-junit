@@ -23,7 +23,7 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
 
     private String queryString ="";
     private String initScriptPath;
-    private Consumer<Connection>[] initFunctions;
+    private Consumer<Connection>[] initFunctions = new Consumer[]{};
 
     public JdbcContainerRule(Supplier<T> containerSupplier) {
         super(containerSupplier);
