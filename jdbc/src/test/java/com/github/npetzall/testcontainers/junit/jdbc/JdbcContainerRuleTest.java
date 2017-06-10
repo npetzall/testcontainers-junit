@@ -7,8 +7,7 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 
 import java.sql.SQLException;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -65,5 +64,12 @@ public class JdbcContainerRuleTest {
         }
         verify(container).createConnection(queryString.capture());
         assertThat(queryString.getValue()).isEqualToIgnoringCase(expected);
+    }
+
+    @Test
+    public void  testShouldNotThrowNullPointerIfNoInitFunctionsAreAdded() throws SQLException {
+        JdbcDatabaseContainer container = mock(JdbcDatabaseContainer.class);
+        JdbcContainerRule<JdbcDatabaseContainer> containerRule = new JdbcContainerRule<>(() -> container);
+        assertThatCode(() -> containerRule.afterStart(container)).doesNotThrowAnyException();
     }
 }
