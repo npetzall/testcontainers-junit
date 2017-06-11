@@ -22,6 +22,13 @@ public class GenericContainerRule<SELF extends GenericContainerRule<SELF, T>, T 
         this.containerSupplier = containerSupplier;
     }
 
+    /**
+     * Add an assumption prior to container creation that throws {@link AssumptionViolatedException}
+     * so that tests are ignored. This is opt-in
+     *
+     * @return this
+     */
+
     public SELF assumeDockerIsPresent() {
         final Supplier<T> originalContainerSupplier = containerSupplier;
         containerSupplier = () -> {
@@ -35,6 +42,14 @@ public class GenericContainerRule<SELF extends GenericContainerRule<SELF, T>, T 
         return self();
     }
 
+    /**
+     * Add assumptions, they will be evaluated before start.
+     * If assumption fails it should throw {@link AssumptionViolatedException}
+     *
+     * @param assumptions {@literal Consumer<Container>}
+     * @return this
+     */
+
     public SELF withAssumptions(Consumer<T>...assumptions) {
         for (Consumer<T> consumer : assumptions) {
             this.assumptions.add(consumer);
@@ -42,10 +57,16 @@ public class GenericContainerRule<SELF extends GenericContainerRule<SELF, T>, T 
         return self();
     }
 
+    /**
+     * Get the wrapped container
+     *
+     * @return Subclass of GenericContainer.
+     */
     public T getContainer() {
         return container;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Statement apply(Statement base, Description description) {
         container = containerSupplier.get();

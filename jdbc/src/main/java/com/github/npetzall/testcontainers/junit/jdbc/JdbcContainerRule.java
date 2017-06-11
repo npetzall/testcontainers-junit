@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -23,24 +25,46 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
 
     private String queryString ="";
     private String initScriptPath;
-    private Consumer<Connection>[] initFunctions = new Consumer[]{};
+    private List<Consumer<Connection>> initFunctions = new ArrayList();
 
     public JdbcContainerRule(Supplier<T> containerSupplier) {
         super(containerSupplier);
     }
 
+    /**
+     * String to add at end of jdbc url to customize the connection
+     * Is used {@link #withInitFunctions(Consumer[])} and {@link #withInitScript(String)}
+     *
+     * @param queryString parameters for the connectionString
+     * @return this
+     */
     public JdbcContainerRule<T> withQueryString(String queryString) {
         this.queryString = queryString;
         return self();
     }
 
+    /**
+     * Run a script during startup of the container, before tests are executed.
+     *
+     * @param initScriptPath path to the initscript
+     * @return this
+     */
     public JdbcContainerRule<T> withInitScript(String initScriptPath) {
         this.initScriptPath = initScriptPath;
         return self();
     }
 
+    /**
+     * Execute a code-block before the tests are executed.
+     * {@literal Consumer<Connection>}
+     *
+     * @param initFunctions {@literal Consumer<Connection>}
+     * @return this
+     */
     public JdbcContainerRule<T> withInitFunctions(Consumer<Connection>...initFunctions) {
-        this.initFunctions = initFunctions;
+        for(Consumer<Connection> initFunction : initFunctions) {
+            this.initFunctions.add(initFunction);
+        }
         return self();
     }
 
