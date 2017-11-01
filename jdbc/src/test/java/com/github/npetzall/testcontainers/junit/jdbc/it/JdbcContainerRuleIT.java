@@ -31,7 +31,8 @@ public class JdbcContainerRuleIT {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            });
+            })
+            .withQueryString("?useSSL=false");
 
     @Test
     public void scriptExecuted() throws SQLException {
@@ -46,7 +47,7 @@ public class JdbcContainerRuleIT {
     }
 
     private String getText(int id) throws SQLException {
-        Connection connection = jdbcContainerRule.getContainer().createConnection("");
+        Connection connection = jdbcContainerRule.getContainer().createConnection("?useSSL=false");
         ResultSet rs = connection.createStatement().executeQuery("SELECT text FROM junit_jdbc where ID="+id);
         rs.next();
         return rs.getString(1);

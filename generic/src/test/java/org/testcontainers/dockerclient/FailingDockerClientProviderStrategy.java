@@ -4,7 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 
 public class FailingDockerClientProviderStrategy extends DockerClientProviderStrategy {
     @Override
-    public void test() throws DockerClientProviderStrategy.InvalidConfigurationException {
+    public void test() throws InvalidConfigurationException {
 
     }
 

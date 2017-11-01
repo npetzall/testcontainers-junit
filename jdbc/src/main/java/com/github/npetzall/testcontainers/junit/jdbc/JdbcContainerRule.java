@@ -13,9 +13,11 @@ import javax.script.ScriptException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -25,6 +27,8 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
 
     private String queryString ="";
     private String initScriptPath;
+    private String initUser = null;
+    private String initPassword = null;
     private List<Consumer<Connection>> initFunctions = new ArrayList();
 
     public JdbcContainerRule(Supplier<T> containerSupplier) {
@@ -68,6 +72,18 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
         return self();
     }
 
+    /**
+     * Specify a user with password that should be used when execution initScript or initFunction
+     * @param user database user
+     * @param password database password
+     * @return this
+     */
+    public JdbcContainerRule<T> withInitUser(String user, String password) {
+        initUser = user;
+        initPassword = password;
+        return self();
+    }
+
     @Override
     protected void afterStart(T container) {
         super.afterStart(container);
@@ -75,7 +91,7 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
             try {
                 URL resource = Resources.getResource(initScriptPath);
                 String sql = Resources.toString(resource, Charsets.UTF_8);
-                ScriptUtils.executeSqlScript(container.createConnection(queryString), initScriptPath, sql);
+                ScriptUtils.executeSqlScript(getConnection(container), initScriptPath, sql);
             } catch (IOException | IllegalArgumentException e) {
                 log.error("Could not load classpath init script: {}", initScriptPath);
                 throw new InitScriptException("Could not load classpath init script: " + initScriptPath, e);
@@ -88,7 +104,7 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
         for(Consumer initFunction : initFunctions) {
             Connection connection = null;
             try {
-                connection = container.createConnection(queryString);
+                connection = getConnection(container);
                 initFunction.accept(connection);
                 if (!connection.isClosed()) {
                     connection.close();
@@ -96,6 +112,19 @@ public class JdbcContainerRule<T extends JdbcDatabaseContainer> extends GenericC
             } catch (SQLException e) {
                 log.warn("Failed to execute function: {}", initFunction.getClass().getSimpleName() , e);
             }
+        }
+    }
+
+    private Connection getConnection(T container) throws SQLException {
+        if (initUser != null && initPassword != null) {
+            Properties info = new Properties();
+            info.put("user", initUser);
+            info.put("password", initPassword);
+            String url = container.getJdbcUrl() + queryString;
+            Driver jdbcDriverInstance = container.getJdbcDriverInstance();
+            return jdbcDriverInstance.connect(url, info);
+        } else {
+            return container.createConnection(queryString);
         }
     }
 }
