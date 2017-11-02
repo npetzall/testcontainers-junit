@@ -3,7 +3,8 @@
 [![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=ncloc)](https://sonarcloud.io/component_measures/metric/ncloc/list?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent)
 [![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent)
 [![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=violations)](https://sonarcloud.io/project/issues?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent&resolved=false)
-[ ![Download](https://api.bintray.com/packages/npetzall/maven/testcontainers-junit/images/download.svg) ](https://bintray.com/npetzall/maven/testcontainers-junit/_latestVersion)  
+[![GitHub release](https://img.shields.io/github/release/npetzall/testcontainers-junit.svg)]()
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.npetzall.testcontainers.junit/jdbc.svg)]()  
 # JUnit Additions for testcontainers.
 
 This is used instead of the Container as [`@Rule`](http://junit.org/junit4/javadoc/latest/org/junit/Rule.html) or [`@ClassRule`](http://junit.org/junit4/javadoc/latest/org/junit/ClassRule.html)
