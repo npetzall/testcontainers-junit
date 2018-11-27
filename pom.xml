@@ -3,7 +3,7 @@
 
     <groupId>com.github.npetzall.testcontainers.junit</groupId>
     <artifactId>junit-parent</artifactId>
-    <version>1.10.1.0.0-SNAPSHOT</version>
+    <version>1.10.1.0.0</version>
 
     <packaging>pom</packaging>
 
@@ -17,7 +17,7 @@
         <connection>scm:git:https://github.com/npetzall/testcontainers-junit.git</connection>
         <developerConnection>scm:git:git@github.com:npetzall/testcontainers-junit.git</developerConnection>
         <url>https://github.com/npetzall/testcontainers-junit</url>
-        <tag>HEAD</tag>
+        <tag>1.10.1.0.0</tag>
     </scm>
 
     <licenses>
