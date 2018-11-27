@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/npetzall/testcontainers-junit.svg?branch=master)](https://travis-ci.org/npetzall/testcontainers-junit)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/npetzall/testcontainers-junit/master/LICENSE.md)
-[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=ncloc)](https://sonarcloud.io/component_measures/metric/ncloc/list?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent)
-[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent)
-[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=violations)](https://sonarcloud.io/project/issues?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent&resolved=false)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=ncloc)](https://sonarcloud.io/component_measures?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=ncloc)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=coverage)](https://sonarcloud.io/component_measures?id=com.github.npetzall.testcontainers.junit%3Ajunit-parent&metric=coverage)
 [![GitHub tag](https://img.shields.io/github/tag/npetzall/testcontainers-junit.svg)](https://github.com/npetzall/testcontainers-junit/tags)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.npetzall.testcontainers.junit/junit-parent.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.npetzall.testcontainers.junit%22)  
 # JUnit Additions for testcontainers.
